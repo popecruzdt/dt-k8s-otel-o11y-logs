@@ -300,6 +300,19 @@ processors:
     timeout: 2s
     override: false
 ```
+
+*note* for this lab, the Kind cluster does not have cloud metadata to collect.  These values will be spoofed for the purposes of this lab.
+```yaml
+resource/kind:
+  attributes:
+  - key: cloud.account.id
+    value: dt-k8s-o11y-account
+    action: insert
+  - key: k8s.cluster.name
+    value: dt-k8s-o11y-kind
+    action: insert
+```
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-03.yaml
