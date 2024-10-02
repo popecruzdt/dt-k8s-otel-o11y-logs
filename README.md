@@ -11,12 +11,10 @@ Total Duration: 20 minutes
 In this lab we'll utilize the OpenTelemetry Collector deployed as a DaemonSet (Node Agent) to collect pod/container logs from a Kubernetes cluster and ship them to Dynatrace.  Additionally, we'll deploy the OpenTelemetry Collector as a Deployment (Gateway) to watch Kubernetes Events from the Cluster and ship them to Dynatrace.
 
 Lab tasks:
-1. Create a Kubernetes cluster on Google GKE
-2. Deploy OpenTelemetry's demo application, astronomy-shop
-3. Deploy OpenTelemetry Collector as a DaemonSet
-4. Deploy OpenTelemetry Collector as a Deployment
-5. Configure OpenTelemetry Collector service pipeline for log enrichment
-6. Query and visualize logs in Dynatrace using DQL
+1. Deploy OpenTelemetry Collector as a DaemonSet
+2. Deploy OpenTelemetry Collector as a Deployment
+3. Configure OpenTelemetry Collector service pipeline for log enrichment
+4. Query and visualize logs in Dynatrace using DQL
 
 ![astronomy-shop logs](img/astronomy-shop_logs.png)
 
@@ -26,8 +24,8 @@ Duration: 2
 
 #### Technologies Used
 - [Dynatrace](https://www.dynatrace.com/trial)
-- [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine)
-  - tested on GKE v1.29.4-gke.1043002
+- [Kind Kubernetes](https://kind.sigs.k8s.io/)
+  - tested on Kind v0.24.0
 - [OpenTelemetry Demo astronomy-shop](https://opentelemetry.io/docs/demo/)
   - tested on release 1.10.0, helm chart release 0.31.0
 - [Istio](https://istio.io/latest/docs/)
@@ -41,35 +39,13 @@ Duration: 2
 TODO
 
 #### Prerequisites
-- Google Cloud Account
-- Google Cloud Project
-- Google Cloud Access to Create and Manage GKE Clusters
-- Google CloudShell Access
+
 
 <!-- -------------------------->
 ## Setup
 Duration: 18
 
 ### Prerequisites
-
-#### Deploy GKE cluster & demo assets
-https://github.com/popecruzdt/dt-k8s-otel-o11y-cluster
-
-#### Clone the repo to your home directory
-Command:
-```sh
-git clone https://github.com/popecruzdt/dt-k8s-otel-o11y-logs.git
-```
-Sample output:
-> Cloning into 'dt-k8s-otel-o11y-logs'...\
-> ...\
-> Receiving objects: 100% (12/12), 10.61 KiB | 1.77 MiB/s, done.
-
-#### Move into repo base directory
-Command:
-```sh
-cd dt-k8s-otel-o11y-logs
-```
 
 #### Generate Dynatrace Access Token
 Generate a new API access token with the following scopes:
@@ -86,7 +62,7 @@ Ingest OpenTelemetry traces
 [notebook](/dt-k8s-otel-o11y-logs_dt_notebook.json)
 
 #### Define workshop user variables
-In your GCP CloudShell Terminal:
+In your Github Codespaces Terminal:
 ```
 DT_ENDPOINT=https://{your-environment-id}.live.dynatrace.com/api/v2/otlp
 DT_API_TOKEN={your-api-token}
@@ -116,7 +92,7 @@ https://cert-manager.io/docs/installation/
 
 Command:
 ```sh
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+kubectl apply -f opentelemetry/cert-manager.yaml
 ```
 Sample output:
 > namespace/cert-manager created\
@@ -128,7 +104,7 @@ Sample output:
 #### Deploy `opentelemetry-operator`
 Command:
 ```sh
-kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/download/v0.103.0/opentelemetry-operator.yaml
+kubectl apply -f opentelemetry/opentelemetry-operator.yaml
 ```
 Sample output:
 > namespace/opentelemetry-operator-system created\
@@ -620,7 +596,7 @@ By completing this lab, you've successfully deployed the OpenTelemetry Collector
 - The Dynatrace Distro of OpenTelemetry Collector includes supported modules needed to ship logs to Dynatrace
   - The `filelog` receiver scrapes logs from the Node filesystem and parses the contents
   - The `k8sattributes` processor enriches the logs with Kubernetes attributes
-  - The `resourcedetection` processor enriches the logs with cloud and cluster (GCP/GKE) attributes
+  - The `resourcedetection` processor enriches the logs with cloud and cluster attributes
   - The `resource` processor enriches the logs with custom (resource) attributes
 - The Community Contrib Distro of OpenTelemetry Collector includes modules needed to ship events to Dynatrace
   - The `k8sobjects` receiver watches for Kubernetes events (and other resources) on the cluster
