@@ -47,6 +47,13 @@ Duration: 18
 
 ### Prerequisites
 
+#### Codespaces Cluster Set Up
+Create a new instance or use an existing instance of the `dt-k8s-otel-o11y-cluster` Codespaces.
+
+[dt-k8s-otel-o11y-cluster](https://github.com/popecruzdt/dt-k8s-otel-o11y-cluster/tree/code-spaces)
+
+Screenshots TODO
+
 #### Generate Dynatrace Access Token
 Generate a new API access token with the following scopes:
 ```
@@ -68,6 +75,19 @@ DT_ENDPOINT=https://{your-environment-id}.live.dynatrace.com/api/v2/otlp
 DT_API_TOKEN={your-api-token}
 NAME=<INITIALS>-k8s-otel-o11y
 ```
+
+#### Clone the `code-spaces` branch to your Codespaces instance
+Command:
+```sh
+git clone --single-branch --branch code-spaces https://github.com/popecruzdt/dt-k8s-otel-o11y-logs.git
+```
+
+#### Move into the base directory
+Command:
+```sh
+cd dt-k8s-otel-o11y-logs
+```
+
 ### OpenTelemetry Collector - Dynatrace Distro
 https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
 
@@ -80,6 +100,9 @@ Sample output:
 > namespace/dynatrace created
 
 #### Create `dynatrace-otelcol-dt-api-credentials` secret
+
+The secret holds the API endpoint and API token that OpenTelemetry data will be sent to.
+
 Command:
 ```sh
 kubectl create secret generic dynatrace-otelcol-dt-api-credentials --from-literal=DT_ENDPOINT=$DT_ENDPOINT --from-literal=DT_API_TOKEN=$DT_API_TOKEN -n dynatrace
@@ -101,7 +124,12 @@ Sample output:
 > ...\
 > validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
 
+Wait 30-60 seconds for cert-manager to finish initializing before continuing.
+
 #### Deploy `opentelemetry-operator`
+
+The OpenTelemetry Operator will deploy and manage the custom resource `OpenTelemetryCollector` deployed on the cluster.
+
 Command:
 ```sh
 kubectl apply -f opentelemetry/opentelemetry-operator.yaml
@@ -115,6 +143,9 @@ Sample output:
 
 #### Deploy OpenTelemetry Collector - Dynatrace Distro - Daemonset (Node Agent)
 https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment#tabgroup--dynatrace-docs--agent
+
+Pod (and container) logs are written to the filesystem of the Node where the pod is running.  Therefore the Collector must be deployed as a Daemonset to read the log files on the local Node.
+
 ```yaml
 ---
 apiVersion: opentelemetry.io/v1alpha1
@@ -223,6 +254,9 @@ Sample output:
 
 ##### Add `k8sattributes` processor
 https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor
+
+The `k8sattributes` processor will query metadata from the cluster about the k8s objects.  The Collector will then marry this metadata to the telemetry.
+
 ```yaml
 k8sattributes:
     auth_type: "serviceAccount"
@@ -301,7 +335,7 @@ processors:
     override: false
 ```
 
-*note* for this lab, the Kind cluster does not have cloud metadata to collect.  These values will be spoofed for the purposes of this lab.
+**note:** for this lab, the Kind cluster does not have cloud metadata to collect.  These values will be spoofed for the purposes of this lab.
 ```yaml
 resource/kind:
   attributes:
@@ -345,6 +379,8 @@ Result:\
 
 ##### Add `resource` processor (attributes)
 https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor
+
+The `resource` processor allows us to directly add, remove, or change resource attributes on the telemetry.
 ```yaml
 processors:
     resource:
@@ -396,6 +432,8 @@ Result:\
 
 ##### `otlp` receiver
 https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver
+
+Adding the `otlp` receiver allows us to receive telemetry from otel exporters, such as agents and other collectors.
 ```yaml
 config: |
     receivers:
