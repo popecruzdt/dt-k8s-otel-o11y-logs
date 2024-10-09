@@ -52,7 +52,34 @@ Create a new instance or use an existing instance of the `dt-k8s-otel-o11y-clust
 
 [dt-k8s-otel-o11y-cluster](https://github.com/popecruzdt/dt-k8s-otel-o11y-cluster/tree/code-spaces)
 
-Screenshots TODO
+Navigate to the Github repository.  Click on `Code`.  Click on `Codespaces`.  Click on `New with options`.
+
+![github cluster repo](img/github_cluster_repo.png)
+
+Choose the Branch `code-spaces`.  Choose the Dev Container Configuration `Kubernetes in Codespaces`.
+
+Choose a Region near your Dynatrace tenant.
+
+Choose Machine Type `2-core`.
+
+![github new codespaces](img/github_cluster_new_codespaces.png)
+
+Allow the Codespace instance to fully initialize.  It is not ready yet.
+
+![github codespace launch](img/github_codespace_launch.png)
+
+The Codespace instance will run the post initialization scripts.
+
+![github codespace ](img/github_codespace_create.png)
+
+When the Codespace instance is idle, validate the `astronomy-shop` pods are running.
+
+Command:
+```sh
+kubectl get pods -n astronomy-shop
+```
+
+![github codespace ready](img/github_codespace_ready.png)
 
 #### Generate Dynatrace Access Token
 Generate a new API access token with the following scopes:
