@@ -47,7 +47,15 @@ Duration: 18
 
 ### Launching Lab Guide Locally
 
-Clone the repo
+Clone the repo:
+```sh
+git clone --single-branch --branch code-spaces https://github.com/popecruzdt/dt-k8s-otel-o11y-logs.git
+```
+
+Move into the lab guide directory:
+```sh
+cd dt-k8s-otel-o11y-logs/lab-guide
+```
 
 Run the generator command:
 ```sh
@@ -111,8 +119,8 @@ Ingest OpenTelemetry traces
 [See Related Dynatrace API Token Creation Documentation](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication#create-token)
 ![dt access token](img/dt_access_token.png)
 
-#### (optional) Import Notebook into Dynatrace
-[notebook](/dt-k8s-otel-o11y-logs_dt_notebook.json)
+#### Import Notebook into Dynatrace
+[Notebook](/dt-k8s-otel-o11y-logs_dt_notebook.json)
 
 #### Define workshop user variables
 In your Github Codespaces Terminal:
