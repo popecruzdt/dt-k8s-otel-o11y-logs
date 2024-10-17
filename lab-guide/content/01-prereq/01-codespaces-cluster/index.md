@@ -12,7 +12,7 @@ Choose the Branch `code-spaces`.  Choose the Dev Container Configuration `Kubern
 
 Choose a Region near your Dynatrace tenant.
 
-Choose Machine Type `2-core`.
+Choose Machine Type `4-core`.
 
 ![github new codespaces](../../../assets/images/01-github_cluster_new_codespaces.png)
 
