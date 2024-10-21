@@ -10,6 +10,9 @@ Move into the lab guide directory:
 cd dt-k8s-otel-o11y-logs/lab-guide
 ```
 
+Install Node if not already installed:
+[Download Node.js](https://nodejs.org/en/download/package-manager)
+
 Run the generator command:
 ```sh
 node bin/generator.js
