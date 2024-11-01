@@ -2,6 +2,11 @@
 
 ### Add `resourcedetection` processor
 https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md#gcp-metadata
+
+The resource detection processor can be used to detect resource information from the host, in a format that conforms to the OpenTelemetry resource semantic conventions, and append or override the resource value in telemetry data with this information.  Detectors are available for AWS, Azure, GCP, and several other platforms; see the documentation for more details.
+
+This processor is a great plugin for adding attributes such as `cloud.account.id` and `k8s.cluster.name` to the telemetry.
+
 ```yaml
 processors:
   resourcedetection/gcp:
@@ -52,3 +57,4 @@ fetch logs
 Result:
 
 ![dql_resourcedetection_processor](../../../assets/images/02-dql_resourcedetection_processor.png)
+** In a real world scenario, `cloud.account.id` may be considered sensitive data; blurred for this reason.

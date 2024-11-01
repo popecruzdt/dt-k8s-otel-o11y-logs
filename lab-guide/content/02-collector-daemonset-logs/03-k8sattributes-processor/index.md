@@ -1,6 +1,15 @@
 ## k8sattributes Processor
 
+### Add Kubernetes Attributes with the `k8sattributes` Processor
+
+The Kubernetes Attributes Processor automatically discovers Kubernetes pods, extracts their metadata, and adds the extracted metadata to spans, metrics, and logs as resource attributes.
+
+The Kubernetes Attributes Processor is one of the most important components for a collector running in Kubernetes. Any collector receiving application data should use it. Because it adds Kubernetes context to your telemetry, the Kubernetes Attributes Processor lets you correlate your application’s traces, metrics, and logs signals with your Kubernetes telemetry, such as pod metrics and traces.
+
 ### Create `clusterrole` with read access to Kubernetes objects
+
+Since the processor uses the Kubernetes API, it needs the correct permission to work correctly. For most use cases, you should give the service account running the collector the following permissions via a ClusterRole.
+
 ```yaml
 ---
 apiVersion: rbac.authorization.k8s.io/v1

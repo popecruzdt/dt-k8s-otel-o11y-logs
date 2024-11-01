@@ -3,6 +3,8 @@
 ### Generate events using deployment scale command
 https://kubernetes.io/docs/reference/kubectl/generated/kubectl_scale/
 
+We can generate new Kubernetes events related to the `astronomy-shop` namespace by scaling a deployment up and then scaling it back down.
+
 Command:
 ```sh
 kubectl scale deployment astronomy-shop-imageprovider -n astronomy-shop --replicas=2

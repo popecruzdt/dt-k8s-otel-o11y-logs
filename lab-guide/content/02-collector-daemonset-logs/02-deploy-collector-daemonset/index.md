@@ -38,6 +38,11 @@ Sample output:
 
 ### `filelog` receiver
 https://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver
+
+The Filelog Receiver tails and parses logs from files. Although it’s not a Kubernetes-specific receiver, it is still the de facto solution for collecting any logs from Kubernetes.  Logs from the Kubernetes Node's filesystem will be read from the Collector running on that Node.  This is why the Collector is deployed as a Daemonset and not a Deployment (or Sidecar).
+
+The Filelog Receiver is composed of Operators that are chained together to process a log. Each Operator performs a simple responsibility, such as parsing a timestamp or JSON. Configuring a Filelog Receiver is not trivial.  Refer to the documentation for details.
+
 ```yaml
 config: |
     receivers:

@@ -1,6 +1,9 @@
 ## Deploy OpenTelemetry Operator
 
 ### Create `dynatrace` namespace
+
+The OpenTelemetry Collectors will belong to the `dynatrace` namespace.  Collectors can be run in any namespace, including `default`.
+
 Command:
 ```sh
 kubectl create namespace dynatrace
@@ -21,6 +24,8 @@ Sample output:
 
 ### Deploy `cert-manager`, pre-requisite for `opentelemetry-operator`
 https://cert-manager.io/docs/installation/
+
+The OpenTelemetry Operator cannot be deployed to the cluster without Cert Manager.
 
 Command:
 ```sh
