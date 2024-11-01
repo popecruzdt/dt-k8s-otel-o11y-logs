@@ -5,7 +5,7 @@ The Kubernetes Objects receiver collects, either by pulling or watching, objects
 ### Add `k8sobjects` receiver to collect Kubernetes events as logs
 https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-objects-receiver
 
-Our goal is capture any events related to the `astronomy-shop` and `dynatrace` namespaces.
+Our goal is to capture any events related to the `astronomy-shop` and `dynatrace` namespaces.
 
 ```yaml
 receivers:
